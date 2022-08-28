@@ -26,7 +26,7 @@ st.markdown("""
                     padding-bottom: 0.3rem;
                 }
                 .css-hxt7ib {
-                    padding-top: 0rem;
+                    padding-top: 3rem;
                     padding-bottom: 1rem;
                 }
    
@@ -68,7 +68,7 @@ col1.metric(label="Total number of tweets extracted", value=tweet_number, delta=
 col2.metric(label="PeterObi mentions", value= obi_mention, delta="")
 col3.metric(label="Atiku mentions", value= atiku_mention, delta="")
 col4.metric(label="Tinubu mentions", value= tinubu_mention, delta="")
-col5.metric(label="Date-Time ", value= date_time, delta="")
+col5.metric(label="Date Reviewed ", value= date_time, delta="")
 
 st.success("###### ❝𝐊𝐞𝐲 𝐰𝐨𝐫𝐝 𝐢𝐧𝐜𝐥𝐮𝐝𝐞𝐬 : @𝐏𝐞𝐭𝐞𝐫𝐎𝐛𝐢,𝐨𝐛𝐞𝐝𝐢𝐞𝐧𝐭, 𝐁𝐀𝐓, 𝐓𝐢𝐧𝐮𝐛𝐮,@𝐨𝐟𝐟𝐢𝐜𝐢𝐚𝐥𝐁𝐀𝐓,𝐀𝐬𝐢𝐰𝐚𝐣𝐮, @𝐚𝐭𝐢𝐤𝐮, 𝐣𝐚𝐠𝐚𝐛𝐚𝐧, 𝐢𝐧𝐞𝐜𝐧𝐢𝐠𝐞𝐫𝐢𝐚❞")
 
@@ -120,7 +120,7 @@ with st.container():
             sent_tab = dataset1.loc[:,["name","sentiment"]]
             fig=px.pie(sent_tab.sentiment.value_counts(), names = sent_tab.sentiment.value_counts().index, values \
                 = sent_tab.sentiment.value_counts().values,hole=.3)
-            fig.update_traces(textposition='outside', textinfo='percent+label',textfont_size=15,pull=0.09)
+            fig.update_traces(textposition='outside', textinfo='percent+label',textfont_size=15,pull=0.05)
             fig.update_layout( annotations=[dict(text= name, x=0.50, y=0.5, font_size=20, showarrow=False,\
                 )],legend=dict(orientation="h", yanchor="bottom",y=1.02,xanchor="right",x=1),title = '<b>Candidate Sentiment</b>')
             return fig
@@ -186,7 +186,7 @@ with st.container():
             tweet_platform = dataset1['Source of Tweet'].value_counts().head(4).sort_values().to_frame()
             fig =px.bar(tweet_platform, color= ["green","blue","orange","black"],text_auto=True, orientation='v',\
                 color_discrete_sequence=px.colors.qualitative.G10)
-            fig.update_layout(width = 640, title = '<b>What decices are people tweeting with ?</b>',title_x=0.05,\
+            fig.update_layout(width = 640, title = '<b>What platforms are people tweeting from ?</b>',title_x=0.05,\
                 legend=dict(orientation="h", yanchor="bottom",y=1.02,xanchor="right",x=1),showlegend=False)
             fig.update_traces(textposition='inside',textfont_size=11)
             fig.update_xaxes(showgrid=False)
