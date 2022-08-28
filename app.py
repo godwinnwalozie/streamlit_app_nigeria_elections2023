@@ -26,7 +26,7 @@ st.markdown("""
                     padding-bottom: 0.3rem;
                 }
                 .css-hxt7ib {
-                    padding-top: 1rem;
+                    padding-top: 0rem;
                     padding-bottom: 1rem;
                 }
    
@@ -61,12 +61,14 @@ tweet_number = len(dataset)
 obi_mention = dataset[dataset.name.str.contains("Obi")].value_counts().sum()
 atiku_mention = dataset[dataset.name.str.contains("Atiku")].value_counts().sum()
 tinubu_mention = dataset[dataset.name.str.contains("Tinubu")].value_counts().sum()
+date_time = dataset.date.max()
 
-col1, col2, col3,col4 = st.columns(4)
+col1, col2, col3,col4,col5 = st.columns(5)
 col1.metric(label="Total number of tweets extracted", value=tweet_number, delta="")
 col2.metric(label="PeterObi mentions", value= obi_mention, delta="")
 col3.metric(label="Atiku mentions", value= atiku_mention, delta="")
 col4.metric(label="Tinubu mentions", value= tinubu_mention, delta="")
+col5.metric(label="Date-Time ", value= date_time, delta="")
 
 st.success("###### ❝𝐊𝐞𝐲 𝐰𝐨𝐫𝐝 𝐢𝐧𝐜𝐥𝐮𝐝𝐞𝐬 : @𝐏𝐞𝐭𝐞𝐫𝐎𝐛𝐢,𝐨𝐛𝐞𝐝𝐢𝐞𝐧𝐭, 𝐁𝐀𝐓, 𝐓𝐢𝐧𝐮𝐛𝐮,@𝐨𝐟𝐟𝐢𝐜𝐢𝐚𝐥𝐁𝐀𝐓,𝐀𝐬𝐢𝐰𝐚𝐣𝐮, @𝐚𝐭𝐢𝐤𝐮, 𝐣𝐚𝐠𝐚𝐛𝐚𝐧, 𝐢𝐧𝐞𝐜𝐧𝐢𝐠𝐞𝐫𝐢𝐚❞")
 
@@ -139,19 +141,20 @@ with st.container():
                     colormap = "rainbow",random_state=42).generate(text)
             plt.axis("off")
             plt.tight_layout(pad=0)
-            plt.title("What people are saying about aspirant", fontsize = 40, fontweight ="bold")
+            ax.set_title("What people are saying about aspirant", fontsize = 40, fontweight ="bold")
             plt.imshow(wc,interpolation="bilinear")            
             plt.show()
             return fig
         plot3 = wcl()
         st.write(plot3)
         
+        
         @st.cache(hash_funcs={matplotlib.figure.Figure: lambda _: None})
         def loc():
             tweet_loc = dataset.loc[:,['location',"sentiment"]].location.value_counts().head(10).\
                 sort_values(ascending=False).to_frame()
             fig=px.bar(tweet_loc, barmode='group',orientation='',color_discrete_sequence=px.colors.qualitative.G10)
-            fig.update_layout( width =620, title = '<b>Top Locations</b>',title_x=0.1,\
+            fig.update_layout( width =620, title = '<b>Where are they tweeting from ?</b>',title_x=0.1,\
                 legend=dict(orientation="v", yanchor="bottom",y=1.02,xanchor="right",x=1),showlegend=False)
             fig.update_traces(textposition='outside',textfont_size=11)
             fig.update_xaxes(showgrid=False)
