@@ -12,7 +12,6 @@ from PIL import Image
 from wordcloud import WordCloud, STOPWORDS
 import collections
 from nltk.corpus import stopwords
-import stylecloud
 
 
 
