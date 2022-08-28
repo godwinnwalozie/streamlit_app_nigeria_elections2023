@@ -194,11 +194,8 @@ with st.container():
         st.write(plot4)
         
 
-git=' 🔍 See code on got: [link](https://github.com/godwinnwalozie)'
+git=' 🔍 See code on got: [link](https://github.com/godwinnwalozie/streamlit_app_nigeria_elections2023)'
 st.sidebar.markdown(git,unsafe_allow_html=True)
-kaggle=' 🔍Find me on Kaggle [link](https://www.kaggle.com/godwinnwalozie/code)'
-st.sidebar.markdown(kaggle,unsafe_allow_html=True)
-
 st.sidebar.write(""" #### "Without Big Data, you are blind and deaf and in the middle of a freeway”, \
     Geoffrey Moore""")
         
