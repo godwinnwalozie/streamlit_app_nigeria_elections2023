@@ -1,5 +1,4 @@
 from ast import increment_lineno
-from turtle import width
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -194,7 +193,7 @@ with st.container():
         st.write(plot4)
         
 
-git=' 🔍 See code on got: [link](https://github.com/godwinnwalozie/streamlit_app_nigeria_elections2023)'
+git=' 🔍 See code on github: [link](https://github.com/godwinnwalozie/streamlit_app_nigeria_elections2023)'
 st.sidebar.markdown(git,unsafe_allow_html=True)
 st.sidebar.write(""" #### "Without Big Data, you are blind and deaf and in the middle of a freeway”, \
     Geoffrey Moore""")
