@@ -12,6 +12,7 @@ from PIL import Image
 from wordcloud import WordCloud, STOPWORDS
 import collections
 from nltk.corpus import stopwords
+import stylecloud
 
 
 
@@ -126,6 +127,11 @@ with st.container():
         plot1 = each1()
         st.write(plot1)
         
+        dir_name = os.path.abspath(os.path.dirname(__file__))
+        mask = np.array(Image.open(os.path.join(dir_name,"mask1.png")))
+        
+    
+    
         @st.cache(hash_funcs={matplotlib.figure.Figure: lambda _: None})
         def wcl():
             stopwords = STOPWORDS
@@ -134,13 +140,14 @@ with st.container():
             text = "".join(dataset1.loc[:,["tweet_preprocessed","sentiment"]][dataset1.loc[:,\
                 ["tweet_preprocessed","sentiment"]].sentiment == 'positive'].tweet_preprocessed)
             fig, ax = plt.subplots(figsize = (20,20))
-            wc = WordCloud(height = 250, stopwords=STOPWORDS, max_words = 1500 , collocations=False ,\
+            wc = WordCloud(mask = mask,stopwords=STOPWORDS, max_words = 1000 , collocations=False ,\
                 max_font_size=100, scale=10,relative_scaling=.6, background_color="black", \
-                    colormap = "rainbow").generate(text)
+                    colormap = "rainbow",random_state=42).generate(text)
             plt.axis("off")
             plt.tight_layout(pad=0)
             ax.imshow(wc,interpolation="bilinear")
             plt.title("What people are saying about aspirant", fontsize = 40, fontweight ="bold")
+            plt.show()
             return fig
         plot3 = wcl()
         st.write(plot3)
@@ -184,6 +191,7 @@ with st.container():
         plot4 = media()
         st.write(plot4)
         
+
         
         
 
