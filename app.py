@@ -92,7 +92,7 @@ def photo_bat ():
     return im3
 
 with st.sidebar:
-    st.subheader("Metrics")
+    st.subheader("Dashboard Filters")
 
     option  = st.sidebar.radio('Select a candidate',('Peter Obi (LP)', 'Bola Ahmed Tinubu (APC)', 'Atiku Abubakar (PDP)'))
 
@@ -132,15 +132,15 @@ with st.container():
 
         @st.cache(hash_funcs={matplotlib.figure.Figure: lambda _: None})
         def wcl():
-            dir_name = os.path.abspath(os.path.dirname(__file__))
-            mask = np.array(Image.open(os.path.join(dir_name,"mask1.png")))
+            # dir_name = os.path.abspath(os.path.dirname(__file__))
+            # mask = np.array(Image.open(os.path.join(dir_name,"mask1.png")))
             stopwords = STOPWORDS
-            stopwords.update(["https", "co","I","The","s","u","go","us","obi","Tinubu","atiku","peter","will","nigeria"])
+            stopwords.update(["https", "co","I","The","s","u","go","us","obi","Tinubu","atiku","peter","will","nigeria","vote"])
             plt.subplots (figsize = (16,8))
             text = "".join(dataset1.loc[:,["tweet_preprocessed","sentiment"]][dataset1.loc[:,\
-                ["tweet_preprocessed","sentiment"]].sentiment == 'positive'].tweet_preprocessed)
+                ["tweet_preprocessed","sentiment"]].sentiment == 'negative'].tweet_preprocessed)
             fig, ax = plt.subplots(figsize = (20,20))
-            wc = WordCloud(mask = mask,stopwords=STOPWORDS, max_words = 1000 , collocations=False ,\
+            wc = WordCloud(stopwords=STOPWORDS, max_words = 2000 , collocations=False ,\
                 max_font_size=100, scale=10,relative_scaling=.6, background_color="black", \
                     colormap = "rainbow",random_state=42).generate(text)
             plt.axis("off")
