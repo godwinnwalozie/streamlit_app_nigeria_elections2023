@@ -1,4 +1,5 @@
 from ast import increment_lineno
+from turtle import width
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -16,8 +17,7 @@ from nltk.corpus import stopwords
 
 
 st.set_page_config(layout= "wide")
-st.subheader("𝐒𝐞𝐧𝐭𝐢𝐦𝐞𝐧𝐭 𝐀𝐧𝐚𝐥𝐲𝐬𝐢𝐬 (𝐍𝐋𝐏) 𝐨𝐟 𝐏𝐫𝐞𝐬𝐢𝐝𝐞𝐧𝐭𝐢𝐚𝐥 𝐂𝐚𝐧𝐝𝐢𝐝𝐚𝐭𝐞𝐬 - 𝟐𝟎𝟐𝟑 𝐍𝐢𝐠𝐞𝐫𝐢𝐚 🇳🇬  𝐄𝐥𝐞𝐜𝐭𝐢𝐨𝐧" )
-
+st.header("Sentiments of Nigerians 🇳🇬 on twitter, towards 2023 Elections")
 
 # Remove whitespace from the top of the page and sidebar
 st.markdown("""
@@ -69,7 +69,7 @@ col2.metric(label="PeterObi mentions", value= obi_mention, delta="")
 col3.metric(label="Atiku mentions", value= atiku_mention, delta="")
 col4.metric(label="Tinubu mentions", value= tinubu_mention, delta="")
 
-st.success("###### ❝𝐊𝐞𝐲 𝐰𝐨𝐫𝐝 𝐬𝐞𝐚𝐫𝐜𝐡 𝐢𝐧𝐜𝐥𝐮𝐝𝐞𝐬 : @𝐏𝐞𝐭𝐞𝐫𝐎𝐛𝐢,𝐨𝐛𝐞𝐝𝐢𝐞𝐧𝐭, 𝐁𝐀𝐓, 𝐓𝐢𝐧𝐮𝐛𝐮,@𝐨𝐟𝐟𝐢𝐜𝐢𝐚𝐥𝐁𝐀𝐓,𝐀𝐬𝐢𝐰𝐚𝐣𝐮, @𝐚𝐭𝐢𝐤𝐮, 𝐣𝐚𝐠𝐚𝐛𝐚𝐧, 𝐢𝐧𝐞𝐜𝐧𝐢𝐠𝐞𝐫𝐢𝐚❞")
+st.success("###### ❝𝐊𝐞𝐲 𝐰𝐨𝐫𝐝 𝐢𝐧𝐜𝐥𝐮𝐝𝐞𝐬 : @𝐏𝐞𝐭𝐞𝐫𝐎𝐛𝐢,𝐨𝐛𝐞𝐝𝐢𝐞𝐧𝐭, 𝐁𝐀𝐓, 𝐓𝐢𝐧𝐮𝐛𝐮,@𝐨𝐟𝐟𝐢𝐜𝐢𝐚𝐥𝐁𝐀𝐓,𝐀𝐬𝐢𝐰𝐚𝐣𝐮, @𝐚𝐭𝐢𝐤𝐮, 𝐣𝐚𝐠𝐚𝐛𝐚𝐧, 𝐢𝐧𝐞𝐜𝐧𝐢𝐠𝐞𝐫𝐢𝐚❞")
 
 def photo_atiku ():
     dir_name = os.path.abspath(os.path.dirname(__file__))
@@ -120,33 +120,28 @@ with st.container():
             fig=px.pie(sent_tab.sentiment.value_counts(), names = sent_tab.sentiment.value_counts().index, values \
                 = sent_tab.sentiment.value_counts().values,hole=.3)
             fig.update_traces(textposition='outside', textinfo='percent+label',textfont_size=15,pull=0.09)
-            fig.update_layout(width = 475,height = 480, annotations=[dict(text= name, x=0.50, y=0.5, font_size=20, showarrow=False,\
+            fig.update_layout( annotations=[dict(text= name, x=0.50, y=0.5, font_size=20, showarrow=False,\
                 )],legend=dict(orientation="h", yanchor="bottom",y=1.02,xanchor="right",x=1),title = '<b>Candidate Sentiment</b>')
             return fig
         plot1 = each1()
         st.write(plot1)
         
-        
-        
-    
-
-        @st.cache(hash_funcs={matplotlib.figure.Figure: lambda _: None})
+        # @st.cache(hash_funcs={matplotlib.figure.Figure: lambda _: None})
         def wcl():
             # dir_name = os.path.abspath(os.path.dirname(__file__))
             # mask = np.array(Image.open(os.path.join(dir_name,"mask1.png")))
             stopwords = STOPWORDS
             stopwords.update(["https", "co","I","The","s","u","go","us","obi","Tinubu","atiku","peter","will","nigeria","vote"])
-            plt.subplots (figsize = (16,8))
             text = "".join(dataset1.loc[:,["tweet_preprocessed","sentiment"]][dataset1.loc[:,\
                 ["tweet_preprocessed","sentiment"]].sentiment == 'negative'].tweet_preprocessed)
-            fig, ax = plt.subplots(figsize = (20,20))
-            wc = WordCloud(stopwords=STOPWORDS, max_words = 2000 , collocations=False ,\
+            fig,ax =plt.subplots(figsize = (20,10))
+            wc = WordCloud(stopwords=STOPWORDS, max_words = 1500 , collocations=False ,\
                 max_font_size=100, scale=10,relative_scaling=.6, background_color="black", \
                     colormap = "rainbow",random_state=42).generate(text)
             plt.axis("off")
             plt.tight_layout(pad=0)
-            ax.imshow(wc,interpolation="bilinear")
             plt.title("What people are saying about aspirant", fontsize = 40, fontweight ="bold")
+            plt.imshow(wc,interpolation="bilinear")            
             plt.show()
             return fig
         plot3 = wcl()
@@ -154,11 +149,14 @@ with st.container():
         
         @st.cache(hash_funcs={matplotlib.figure.Figure: lambda _: None})
         def loc():
-            tweet_loc = dataset.loc[:,['location',"sentiment"]].location.value_counts().head(10).sort_values().to_frame()
-            fig=px.bar(tweet_loc, barmode='group',orientation='v',color_discrete_sequence=px.colors.qualitative.G10)
-            fig.update_layout(  title = '<b>Top Locations</b>',title_x=0.1,\
+            tweet_loc = dataset.loc[:,['location',"sentiment"]].location.value_counts().head(10).\
+                sort_values(ascending=False).to_frame()
+            fig=px.bar(tweet_loc, barmode='group',orientation='',color_discrete_sequence=px.colors.qualitative.G10)
+            fig.update_layout( width =620, title = '<b>Top Locations</b>',title_x=0.1,\
                 legend=dict(orientation="v", yanchor="bottom",y=1.02,xanchor="right",x=1),showlegend=False)
             fig.update_traces(textposition='outside',textfont_size=11)
+            fig.update_xaxes(showgrid=False)
+            fig.update_yaxes(showgrid=False)
             return fig
         plot5 = loc()
         st.write(plot5)
@@ -171,9 +169,11 @@ with st.container():
         def all ():
             sent_tab = pd.crosstab(dataset.name, dataset.sentiment).transpose()
             fig = px.bar(sent_tab,barmode='group',orientation='v',text_auto=True)
-            fig.update_layout( width = 670, title = '<b>How They Compare</b>',title_x=0.1,\
+            fig.update_layout( width = 640, title = '<b>How They Compare</b>',title_x=0.1,\
                 legend=dict(orientation="h", yanchor="bottom",y=1.02,xanchor="right",x=1))
             fig.update_traces(textfont_size=11,textposition='inside')
+            fig.update_xaxes(showgrid=False)
+            fig.update_yaxes(showgrid=False)
             return fig
         plot2 = all()
         st.write(plot2)
@@ -184,15 +184,23 @@ with st.container():
             tweet_platform = dataset1['Source of Tweet'].value_counts().head(4).sort_values().to_frame()
             fig =px.bar(tweet_platform, color= ["green","blue","orange","black"],text_auto=True, orientation='v',\
                 color_discrete_sequence=px.colors.qualitative.G10)
-            fig.update_layout( title = '<b>What decices are people tweeting with ?</b>',title_x=0.05,\
+            fig.update_layout(width = 640, title = '<b>What decices are people tweeting with ?</b>',title_x=0.05,\
                 legend=dict(orientation="h", yanchor="bottom",y=1.02,xanchor="right",x=1),showlegend=False)
             fig.update_traces(textposition='inside',textfont_size=11)
+            fig.update_xaxes(showgrid=False)
+            fig.update_yaxes(showgrid=False)
             return fig
         plot4 = media()
         st.write(plot4)
         
 
-        
+git=' 🔍 See code on got: [link](https://github.com/godwinnwalozie)'
+st.sidebar.markdown(git,unsafe_allow_html=True)
+kaggle=' 🔍Find me on Kaggle [link](https://www.kaggle.com/godwinnwalozie/code)'
+st.sidebar.markdown(kaggle,unsafe_allow_html=True)
+
+st.sidebar.write(""" #### "Without Big Data, you are blind and deaf and in the middle of a freeway”, \
+    Geoffrey Moore""")
         
 
            
