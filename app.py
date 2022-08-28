@@ -126,13 +126,14 @@ with st.container():
         plot1 = each1()
         st.write(plot1)
         
-        dir_name = os.path.abspath(os.path.dirname(__file__))
-        mask = np.array(Image.open(os.path.join(dir_name,"mask1.png")))
+        
         
     
-    
+
         @st.cache(hash_funcs={matplotlib.figure.Figure: lambda _: None})
         def wcl():
+            dir_name = os.path.abspath(os.path.dirname(__file__))
+            mask = np.array(Image.open(os.path.join(dir_name,"mask1.png")))
             stopwords = STOPWORDS
             stopwords.update(["https", "co","I","The","s","u","go","us","obi","Tinubu","atiku","peter","will","nigeria"])
             plt.subplots (figsize = (16,8))
