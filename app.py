@@ -48,8 +48,6 @@ div.stButton > button:hover {
 </style>""", unsafe_allow_html=True)
 
 
-
-
 # import dataset
 path = os.path.abspath(os.path.dirname(__file__))
 @st.cache(suppress_st_warning=True, allow_output_mutation=True, persist= True)
