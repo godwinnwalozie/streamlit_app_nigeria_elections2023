@@ -4,7 +4,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-from datetime import datetime
+from datetime import datetime, date
 import plotly.express as px
 import os
 import matplotlib
@@ -12,7 +12,6 @@ from PIL import Image
 from wordcloud import WordCloud, STOPWORDS
 import collections
 from nltk.corpus import stopwords
-
 
 
 st.set_page_config(layout= "wide")
@@ -55,18 +54,20 @@ def load_dataset():
     data =pd.read_csv((os.path.join(path,"influencers.csv")))
     return data
 dataset = load_dataset()
+
 tweet_number = len(dataset)
 obi_mention = dataset[dataset.name.str.contains("Obi")].value_counts().sum()
 atiku_mention = dataset[dataset.name.str.contains("Atiku")].value_counts().sum()
 tinubu_mention = dataset[dataset.name.str.contains("Tinubu")].value_counts().sum()
-date_time = dataset.date.max()
+today = date.today()
+
 
 col1, col2, col3,col4,col5 = st.columns(5)
 col1.metric(label="Total number of tweets extracted", value=tweet_number, delta="")
 col2.metric(label="PeterObi mentions", value= obi_mention, delta="")
 col3.metric(label="Atiku mentions", value= atiku_mention, delta="")
 col4.metric(label="Tinubu mentions", value= tinubu_mention, delta="")
-col5.metric(label="Date Reviewed ", value= date_time, delta="")
+col5.metric(label="Date Reviewed ", value= str(today), delta="")
 
 st.success("###### ❝𝐊𝐞𝐲 𝐰𝐨𝐫𝐝 𝐢𝐧𝐜𝐥𝐮𝐝𝐞𝐬 : @𝐏𝐞𝐭𝐞𝐫𝐎𝐛𝐢,𝐨𝐛𝐞𝐝𝐢𝐞𝐧𝐭, 𝐁𝐀𝐓, 𝐓𝐢𝐧𝐮𝐛𝐮,@𝐨𝐟𝐟𝐢𝐜𝐢𝐚𝐥𝐁𝐀𝐓,𝐀𝐬𝐢𝐰𝐚𝐣𝐮, @𝐚𝐭𝐢𝐤𝐮, 𝐣𝐚𝐠𝐚𝐛𝐚𝐧, 𝐢𝐧𝐞𝐜𝐧𝐢𝐠𝐞𝐫𝐢𝐚❞")
 
@@ -90,22 +91,33 @@ def photo_bat ():
     im3 = st.sidebar.image(file)
     return im3
 
+
 with st.sidebar:
     st.subheader("Dashboard Filters")
+    option_date =  st.selectbox('Select Month', ('Aug', 'Sep'))
+    
+    if option_date == 'Aug':
+        month = 8
+    else:
+        month = 9
+        
+    option_name  = st.sidebar.radio('Select a candidate',('Peter Obi (LP)', 'Bola Ahmed Tinubu (APC)', 'Atiku Abubakar (PDP)'))
 
-    option  = st.sidebar.radio('Select a candidate',('Peter Obi (LP)', 'Bola Ahmed Tinubu (APC)', 'Atiku Abubakar (PDP)'))
-
-    if  option == "Atiku Abubakar (PDP)":
+    if  option_name == "Atiku Abubakar (PDP)":
         name = "Atiku"
         im1 = photo_atiku()
-    elif option == 'Peter Obi (LP)':
+    elif option_name == 'Peter Obi (LP)':
         name = 'Obi'
         im2= photo_obi()
     else :
         name = 'Tinubu' 
         im3 = photo_bat()
 
-dataset1 = dataset[dataset.name == name]
+dataset1 = dataset[(dataset.name == name) & (dataset.month == month)]
+
+        
+
+    
 
 
 with st.container():
@@ -198,40 +210,5 @@ git=' 🔍 See code on github: [link](https://github.com/godwinnwalozie/streamli
 st.sidebar.markdown(git,unsafe_allow_html=True)
 st.sidebar.write(""" #### "Without Big Data, you are blind and deaf and in the middle of a freeway”, \
     Geoffrey Moore""")
-        
 
-           
-
-
-        
-                
-       
-
-
-        
-
-
-
-
-
-
-    
-    
-    
-    
-    
-    # with col2 :
-    #     @st.cache(hash_funcs={matplotlib.figure.Figure: lambda _: None})
-    #     def sentiment_all2():
-    #         sent_tab = pd.crosstab(dataset.name, dataset.sentiment).transpose()
-    #         fig = px.bar(sent_tab,barmode='group',text_auto=True)
-    #         fig.update_layout( width = 650,title = 'Social Media Sentiments',title_x=0.5)
-    #         fig.update_traces(textposition='outside',textfont_size=11)
-    #         return fig
-    #     plot2 = sentiment_all2()
-    #     st.write(plot2)
-        
-    # sent_tab = pd.crosstab(dataset1.name, dataset1.sentiment).transpose()
- 
-       
            
