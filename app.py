@@ -127,7 +127,6 @@ with st.sidebar:
 
 dataset1 = dataset[(dataset.name == name) & (dataset.month == month)]
 
-
 with st.container():
     col1, col2, = st.columns(2)
     with col1:
@@ -169,7 +168,7 @@ with st.container():
         
         @st.cache(hash_funcs={matplotlib.figure.Figure: lambda _: None})
         def loc():
-            tweet_loc = dataset.loc[:,['location',"sentiment"]].location.value_counts().head(10).\
+            tweet_loc = dataset1.loc[:,['location',"sentiment"]].location.value_counts().head(10).\
                 sort_values(ascending=False).to_frame()
             fig=px.bar(tweet_loc, barmode='group',orientation='',color_discrete_sequence=px.colors.qualitative.G10)
             fig.update_layout( width =620, title = '<b>Where are they tweeting from ?</b>',title_x=0.1,\
@@ -182,12 +181,12 @@ with st.container():
         st.write(plot5)
     
         
-        
+    dataset2 = dataset[(dataset.month == month)]   
     with col2:  
         
         @st.cache(hash_funcs={matplotlib.figure.Figure: lambda _: None})
         def all ():
-            sent_tab = pd.crosstab(dataset.name, dataset.sentiment).transpose()
+            sent_tab = pd.crosstab(dataset2.name, dataset2.sentiment).transpose()
             fig = px.bar(sent_tab,barmode='group',orientation='v',text_auto=True)
             fig.update_layout( width = 640, title = '<b>How They Compare</b>',title_x=0.1,\
                 legend=dict(orientation="h", yanchor="bottom",y=1.02,xanchor="right",x=1))
