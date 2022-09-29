@@ -14,11 +14,14 @@ import collections
 from nltk.corpus import stopwords
 
 
+
 st.set_page_config(layout= "wide")
 st.header("Sentiments of Nigerians 🇳🇬 on twitter, towards 2023 Elections")
 
+
+
 # Remove whitespace from the top of the page and sidebar
-st.markdown("""
+st.markdown ("""
         <style>
                 .css-18e3th9 {
                     padding-top: 3rem;
@@ -31,6 +34,7 @@ st.markdown("""
    
         </style>
         """, unsafe_allow_html=True)
+
 
 
 # button styling
@@ -47,13 +51,15 @@ div.stButton > button:hover {
 </style>""", unsafe_allow_html=True)
 
 
+
 # import dataset
 path = os.path.abspath(os.path.dirname(__file__))
 @st.cache(suppress_st_warning=True, allow_output_mutation=True, persist= True)
 def load_dataset():
-    data =pd.read_csv((os.path.join(path,"influencers.csv")))
+    data =pd.read_csv((os.path.join(path,"inn.csv")))
     return data
 dataset = load_dataset()
+
 
 tweet_number = len(dataset)
 obi_mention = dataset[dataset.name.str.contains("Obi")].value_counts().sum()
@@ -71,11 +77,14 @@ col5.metric(label="Date Reviewed ", value= str(today), delta="")
 
 st.success("###### ❝𝐊𝐞𝐲 𝐰𝐨𝐫𝐝 𝐢𝐧𝐜𝐥𝐮𝐝𝐞𝐬 : @𝐏𝐞𝐭𝐞𝐫𝐎𝐛𝐢,𝐨𝐛𝐞𝐝𝐢𝐞𝐧𝐭, 𝐁𝐀𝐓, 𝐓𝐢𝐧𝐮𝐛𝐮,@𝐨𝐟𝐟𝐢𝐜𝐢𝐚𝐥𝐁𝐀𝐓,𝐀𝐬𝐢𝐰𝐚𝐣𝐮, @𝐚𝐭𝐢𝐤𝐮, 𝐣𝐚𝐠𝐚𝐛𝐚𝐧, 𝐢𝐧𝐞𝐜𝐧𝐢𝐠𝐞𝐫𝐢𝐚❞")
 
+
+
 def photo_atiku ():
     dir_name = os.path.abspath(os.path.dirname(__file__))
     file = Image.open(os.path.join(dir_name,"atiku.jpg"))
     im1 = st.sidebar.image(file)
     return im1
+
 
 
 def photo_obi ():
@@ -92,15 +101,18 @@ def photo_bat ():
     return im3
 
 
+
 with st.sidebar:
     st.subheader("Dashboard Filters")
     option_date =  st.selectbox('Select Month', ('Aug', 'Sep'))
     
     if option_date == 'Aug':
         month = 8
-    else:
+    elif option_date =='Sep':
         month = 9
-        
+    else:
+        pass
+
     option_name  = st.sidebar.radio('Select a candidate',('Peter Obi (LP)', 'Bola Ahmed Tinubu (APC)', 'Atiku Abubakar (PDP)'))
 
     if  option_name == "Atiku Abubakar (PDP)":
@@ -114,10 +126,6 @@ with st.sidebar:
         im3 = photo_bat()
 
 dataset1 = dataset[(dataset.name == name) & (dataset.month == month)]
-
-        
-
-    
 
 
 with st.container():
@@ -210,5 +218,3 @@ git=' 🔍 See code on github: [link](https://github.com/godwinnwalozie/streamli
 st.sidebar.markdown(git,unsafe_allow_html=True)
 st.sidebar.write(""" #### "Without Big Data, you are blind and deaf and in the middle of a freeway”, \
     Geoffrey Moore""")
-
-           
