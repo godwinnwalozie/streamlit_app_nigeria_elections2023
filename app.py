@@ -110,10 +110,10 @@ with st.sidebar:
         month = 8
     elif option_date =='Sep':
         month = 9
-    elif option_date =='Oct':
-        month = 10
     else:
-        pass
+        month = 10
+    
+
 
     option_name  = st.sidebar.radio('Select a candidate',('Peter Obi (LP)', 'Bola Ahmed Tinubu (APC)', 'Atiku Abubakar (PDP)'))
 
