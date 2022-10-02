@@ -104,12 +104,14 @@ def photo_bat ():
 
 with st.sidebar:
     st.subheader("Dashboard Filters")
-    option_date =  st.selectbox('Select Month', ('Aug', 'Sep'))
+    option_date =  st.selectbox('Select Month', ('Aug', 'Sep', 'Oct'))
     
     if option_date == 'Aug':
         month = 8
     elif option_date =='Sep':
         month = 9
+    elif option_date =='Oct':
+        month = 10
     else:
         pass
 
