@@ -132,7 +132,7 @@ with st.container():
     col1, col2, = st.columns(2)
     with col1:
              
-        @st.cache(hash_funcs={matplotlib.figure.Figure: lambda _: None})
+        @st.cache_data(hash_funcs={matplotlib.figure.Figure: lambda _: None})
             
         def each1 ():
             sent_tab = dataset1.loc[:,["name","sentiment"]]
@@ -167,7 +167,7 @@ with st.container():
         st.write(plot3)
         
         
-        @st.cache(hash_funcs={matplotlib.figure.Figure: lambda _: None})
+        @st.cache_data(hash_funcs={matplotlib.figure.Figure: lambda _: None})
         def loc():
             tweet_loc = dataset1.loc[:,['location',"sentiment"]].location.value_counts().head(10).\
                 sort_values(ascending=False).to_frame()
@@ -185,7 +185,7 @@ with st.container():
     dataset2 = dataset[(dataset.month == month)]   
     with col2:  
         
-        @st.cache(hash_funcs={matplotlib.figure.Figure: lambda _: None})
+        @st.cache_data(hash_funcs={matplotlib.figure.Figure: lambda _: None})
         def all ():
             sent_tab = pd.crosstab(dataset2.name, dataset2.sentiment).transpose()
             fig = px.bar(sent_tab,barmode='group',orientation='v',text_auto=True)
@@ -199,7 +199,7 @@ with st.container():
         st.write(plot2)
 
         
-        @st.cache(hash_funcs={matplotlib.figure.Figure: lambda _: None})
+        @st.cache_data(hash_funcs={matplotlib.figure.Figure: lambda _: None})
         def media():
             tweet_platform = dataset1['Source of Tweet'].value_counts().head(4).sort_values().to_frame()
             fig =px.bar(tweet_platform, color= ["green","blue","orange","black"],text_auto=True, orientation='v',\
